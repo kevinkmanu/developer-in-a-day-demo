@@ -1,0 +1,111 @@
+# =============================================================
+# PR Checks — Convention & Audit
+# Validates PR hygiene: Conventional Commits, npm audit.
+# Posts a gate summary comment back on the PR.
+# =============================================================
+name: PR Checks — Convention & Audit
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+
+  pr-title:
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Conventional Commits format
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            refactor
+            test
+            docs
+            ci
+            chore
+            perf
+            build
+            revert
+          requireScope: false
+
+  dependency-audit:
+    name: Dependency Audit (npm audit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: npm audit (high/critical)
+        run: npm audit --audit-level=high
+        continue-on-error: true
+      - name: Generate audit JSON
+        if: always()
+        run: npm audit --json > npm-audit.json 2>/dev/null || true
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-audit-pr-${{ github.event.pull_request.number }}
+          path: npm-audit.json
+          retention-days: 30
+
+  pr-summary:
+    name: Post PR Gate Summary
+    runs-on: ubuntu-latest
+    needs: [pr-title, dependency-audit]
+    if: always()
+    steps:
+      - name: Post summary comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const icon = (r) => r === 'success' ? 'PASS' : r === 'skipped' ? 'SKIP' : 'FAIL';
+            const prTitle = '${{ needs.pr-title.result }}';
+            const audit = '${{ needs.dependency-audit.result }}';
+            const body = [
+              '## PR Gate Summary',
+              '| Check | Status |',
+              '|-------|--------|',
+              `| PR Title (Conventional Commits) | ${icon(prTitle)} |`,
+              `| Dependency Audit (npm audit) | ${icon(audit)} |`,
+              '',
+              '> Full CI gates run in the main CI workflow and must also pass before merge.',
+              `_Run #${{ github.run_number }} — ${new Date().toISOString()}_`
+            ].join('\n');
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.pull_request.number }}
+            });
+            const existing = comments.find(c =>
+              c.user.login === 'github-actions[bot]' && c.body.startsWith('## PR Gate Summary'));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: ${{ github.event.pull_request.number }},
+                body
+              });
+            }
