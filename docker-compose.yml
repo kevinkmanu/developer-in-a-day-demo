@@ -1,0 +1,43 @@
+# Local development compose — mirrors production configuration
+# Usage: docker compose up
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      target: deps          # Use deps stage (not production) for hot-reload
+    image: developer-in-a-day-demo:local
+    container_name: demo-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - LOG_LEVEL=debug
+      - APP_VERSION=local
+    volumes:
+      - ./src:/app/src:ro   # Mount source for live reload
+    command: npm run dev
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  # Prometheus for local metrics visualization
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: demo-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docs/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      - app
+    restart: unless-stopped
+
+networks:
+  default:
+    name: demo-network

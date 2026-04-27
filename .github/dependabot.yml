@@ -1,0 +1,60 @@
+version: 2
+updates:
+  # ── npm dependencies ────────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: UTC
+    labels:
+      - dependencies
+      - automated
+    commit-message:
+      prefix: "chore"
+      include: scope
+    reviewers:
+      - nkusakula
+    open-pull-requests-limit: 10
+    groups:
+      dev-dependencies:
+        dependency-type: development
+      production-dependencies:
+        dependency-type: production
+    ignore:
+      # Major version bumps require manual review
+      - dependency-name: "express"
+        update-types: ["version-update:semver-major"]
+
+  # ── GitHub Actions ───────────────────────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "08:00"
+      timezone: UTC
+    labels:
+      - dependencies
+      - github-actions
+      - automated
+    commit-message:
+      prefix: "ci"
+    reviewers:
+      - nkusakula
+    open-pull-requests-limit: 5
+
+  # ── Docker base image ────────────────────────────────────────
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - docker
+      - automated
+    commit-message:
+      prefix: "build"
+    reviewers:
+      - nkusakula

@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime
+.env
+.env.local
+.env.*.local
+
+# Test & Coverage
+coverage/
+test-results/
+jest-junit.xml
+
+# Build artifacts
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Security scan outputs (not committed — uploaded as artifacts)
+eslint-results.sarif
+trivy-*.sarif
+trivy-*.json
+grype-results.sarif
+sbom.spdx.json
+license-report.json
+
+# Compliance reports (uploaded as artifacts)
+compliance-report-*.md

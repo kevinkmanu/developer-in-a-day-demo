@@ -1,0 +1,69 @@
+name: Change Record
+description: Standard change record for environment deployments (auto-created by pipeline)
+title: "[CHANGE] <environment> deployment — <image-tag>"
+labels:
+  - change-record
+  - automated
+body:
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Target Environment
+      options:
+        - development
+        - staging
+        - production
+    validations:
+      required: true
+
+  - type: dropdown
+    id: change-type
+    attributes:
+      label: Change Type
+      options:
+        - Standard (pre-approved, low risk)
+        - Normal (requires CAB review)
+        - Emergency (expedited approval)
+    validations:
+      required: true
+
+  - type: input
+    id: image-tag
+    attributes:
+      label: Artifact / Image Tag
+      placeholder: "sha-abc1234"
+    validations:
+      required: true
+
+  - type: input
+    id: pipeline-run
+    attributes:
+      label: Pipeline Run URL
+      placeholder: "https://github.com/org/repo/actions/runs/..."
+
+  - type: textarea
+    id: compliance-evidence
+    attributes:
+      label: Compliance Evidence
+      description: Auto-populated by pipeline. Lists all gate results.
+      value: |
+        - [ ] CI pipeline passed (all gates green)
+        - [ ] Security scans: CodeQL, Trivy, Grype
+        - [ ] License compliance validated
+        - [ ] Coverage ≥ 80%
+        - [ ] Image signed (Sigstore)
+        - [ ] SBOM generated and attested
+        - [ ] Smoke / integration tests passed
+        - [ ] Environment approval obtained
+
+  - type: textarea
+    id: rollback-plan
+    attributes:
+      label: Rollback Plan
+      value: |
+        Automated rollback on:
+        - Health check failure (3 consecutive)
+        - Error rate > 5% in 30s window
+        - p99 latency > 2s in 60s window
+        
+        Manual rollback: `kubectl rollout undo deployment/demo-app`

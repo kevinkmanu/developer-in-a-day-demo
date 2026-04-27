@@ -1,0 +1,15 @@
+node_modules
+npm-debug.log*
+coverage/
+test-results/
+.env*
+.git
+.gitignore
+.github
+*.md
+docs/
+k8s/
+scripts/
+*.sarif
+*.spdx.json
+docker-compose*.yml

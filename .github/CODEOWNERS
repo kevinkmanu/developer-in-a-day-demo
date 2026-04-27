@@ -1,0 +1,22 @@
+# CODEOWNERS — enforces mandatory code review by domain owners
+# All matching rules are evaluated; most specific path wins.
+# Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default: repo owners must approve all changes
+*                               @nkusakula
+
+# Application source — requires app team review
+/src/                           @nkusakula
+
+# Security-sensitive: pipeline, container, and security config
+/.github/workflows/             @nkusakula
+/Dockerfile                     @nkusakula
+/.eslintrc.json                 @nkusakula
+/SECURITY.md                    @nkusakula
+
+# Infrastructure manifests
+/k8s/                           @nkusakula
+
+# Documentation
+/docs/                          @nkusakula
+/README.md                      @nkusakula
