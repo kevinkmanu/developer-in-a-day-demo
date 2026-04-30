@@ -3,20 +3,20 @@
 # Reference: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
 # Default: repo owners must approve all changes
-*                               @nkusakula
-
+*                               @nkusakula @kevinkmanu
+                
 # Application source — requires app team review
-/src/                           @nkusakula
+/src/                           @nkusakula @kevinkmanu
 
 # Security-sensitive: pipeline, container, and security config
-/.github/workflows/             @nkusakula
-/Dockerfile                     @nkusakula
-/.eslintrc.json                 @nkusakula
-/SECURITY.md                    @nkusakula
+/.github/workflows/             @nkusakula @kevinkmanu
+/Dockerfile                     @nkusakula @kevinkmanu
+/.eslintrc.json                 @nkusakula @kevinkmanu
+/SECURITY.md                    @nkusakula @kevinkmanu
 
 # Infrastructure manifests
-/k8s/                           @nkusakula
+/k8s/                           @nkusakula @kevinkmanu
 
 # Documentation
-/docs/                          @nkusakula
-/README.md                      @nkusakula
+/docs/                          @nkusakula @kevinkmanu
+/README.md                      @nkusakula @kevinkmanu
