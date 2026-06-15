@@ -15,7 +15,7 @@ updates:
       prefix: "chore"
       include: scope
     reviewers:
-      - nkusakula
+      - kevinkmanu
     open-pull-requests-limit: 10
     groups:
       dev-dependencies:
@@ -42,7 +42,7 @@ updates:
     commit-message:
       prefix: "ci"
     reviewers:
-      - nkusakula
+      - kevinkmanu
     open-pull-requests-limit: 5
 
   # ── Docker base image ────────────────────────────────────────
@@ -57,4 +57,4 @@ updates:
     commit-message:
       prefix: "build"
     reviewers:
-      - nkusakula
+      - kevinkmanu

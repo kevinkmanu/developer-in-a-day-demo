@@ -52,9 +52,9 @@ The story: a developer starts the day, makes a code change, and watches it trave
 
 ## Pre-Demo Setup Checklist (15 minutes before)
 
-- [ ] Fork or clone `https://github.com/nkusakula/developer-in-a-day-demo`
+- [ ] Fork or clone `https://github.com/kevinkmanu/developer-in-a-day-demo`
 - [ ] Open the repo in VS Code with the **GitHub Copilot** extension installed and signed in
-- [ ] Open `https://github.com/nkusakula/developer-in-a-day-demo` in a browser tab
+- [ ] Open `https://github.com/kevinkmanu/developer-in-a-day-demo` in a browser tab
 - [ ] Open a second browser tab to **Actions** (pipeline view)
 - [ ] Open a third browser tab to **Security** (code scanning alerts)
 - [ ] Have a terminal ready: `cd developer-in-a-day-demo && npm install`
@@ -159,7 +159,7 @@ git push origin feat/add-search-endpoint
 
 ### 2.1 — Open the pull request (1 min)
 
-Open `https://github.com/nkusakula/developer-in-a-day-demo` in the browser.
+Open `https://github.com/kevinkmanu/developer-in-a-day-demo` in the browser.
 
 GitHub shows a banner: *"Recently pushed branch: feat/add-search-endpoint — Compare & pull request"*
 
@@ -197,7 +197,7 @@ The `PR Checks — Convention & Audit` workflow fires first (fastest):
 
 Scroll to the **Reviewers** section of the PR.
 
-**Show:** GitHub has automatically requested a review from `@nkusakula` (CODEOWNERS rule for `/src/`). The PR **cannot merge** without this approval.
+**Show:** GitHub has automatically requested a review from `@kevinkmanu` (CODEOWNERS rule for `/src/`). The PR **cannot merge** without this approval.
 
 **Capability callout:** 🟢 **Required reviewer enforcement** — GitHub enforces CODEOWNERS natively. No bot or plugin needed. The rule is version-controlled in `.github/CODEOWNERS`.
 
@@ -240,7 +240,7 @@ Walk through each job:
 **Job 5 — Container Build & Security Scan**
 - Multi-stage Docker build using `node:20-alpine` (approved base image)
 - 🟢 **Dependency caching (container layers):** Docker layer cache is stored via `cache-from: type=gha` in the `docker/build-push-action`. Layers for unchanged `npm install` steps are restored from the GitHub Actions cache.
-- 🟢 **Pulls from native artifact management (GHCR):** Base image `node:20-alpine` is pulled from Docker Hub; the built image is **pushed to GHCR** (`ghcr.io/nkusakula/developer-in-a-day-demo`) — GitHub's native OCI registry with OCI provenance + SBOM attached.
+- 🟢 **Pulls from native artifact management (GHCR):** Base image `node:20-alpine` is pulled from Docker Hub; the built image is **pushed to GHCR** (`ghcr.io/kevinkmanu/developer-in-a-day-demo`) — GitHub's native OCI registry with OCI provenance + SBOM attached.
 - 🔵 **Artifactory integration:** Not configured in this demo. To route through Artifactory, add a `docker login` step against your Artifactory URL using `secrets.ARTIFACTORY_TOKEN`. The same secret handling pattern works for any enterprise tool integration (NPM registry proxy, Maven, etc.).
 - **Trivy** scans for CVEs (CRITICAL/HIGH), SARIF uploaded to Security dashboard — 🟢 native GHAS integration
 - **Grype** provides a second-opinion scan — 🔵 open-source tool, runs as a step
@@ -318,10 +318,10 @@ CI re-runs. ESLint passes.
 
 ### 3.1 — Show the signed image in GHCR (1 min)
 
-Navigate to **github.com/nkusakula/developer-in-a-day-demo** > **Packages** tab.
+Navigate to **github.com/kevinkmanu/developer-in-a-day-demo** > **Packages** tab.
 
 **Show:**
-- The built image `ghcr.io/nkusakula/developer-in-a-day-demo:sha-abc1234`
+- The built image `ghcr.io/kevinkmanu/developer-in-a-day-demo:sha-abc1234`
 - OCI provenance attestation attached
 - SPDX SBOM attached
 - Sigstore cosign signature (keyless OIDC)
@@ -472,7 +472,7 @@ AKS stores rollout history. `kubectl rollout history` shows all revisions.
 
 **Backout to a specific prior version** 🟢 (AKS + GHCR)
 ```bash
-kubectl set image deployment/developer-in-a-day-demo app=ghcr.io/nkusakula/developer-in-a-day-demo:sha-abc0001
+kubectl set image deployment/developer-in-a-day-demo app=ghcr.io/kevinkmanu/developer-in-a-day-demo:sha-abc0001
 ```
 Every CI run produces a unique SHA-tagged image retained in GHCR. Any prior version is one command away.
 
@@ -793,8 +793,8 @@ Download `sbom-N.spdx.json` from the CI run artifacts. Open it to show every pac
 
 ### Show image signature verification
 ```bash
-cosign verify ghcr.io/nkusakula/developer-in-a-day-demo:latest \
-  --certificate-identity-regexp="https://github.com/nkusakula" \
+cosign verify ghcr.io/kevinkmanu/developer-in-a-day-demo:latest \
+  --certificate-identity-regexp="https://github.com/kevinkmanu" \
   --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
 ```
 The signed image verification output proves the image was built by a specific GitHub Actions workflow run.
@@ -858,7 +858,7 @@ git push origin feat/add-search-endpoint
 
 ### 2.1 — Open the pull request (1 min)
 
-Open `https://github.com/nkusakula/developer-in-a-day-demo` in the browser.
+Open `https://github.com/kevinkmanu/developer-in-a-day-demo` in the browser.
 
 GitHub shows a banner: *“Recently pushed branch: feat/add-search-endpoint — Compare & pull request”*
 
@@ -892,7 +892,7 @@ The `PR Checks — Convention & Audit` workflow fires first (fastest):
 
 Scroll to the **Reviewers** section of the PR.
 
-**Show:** GitHub has automatically requested a review from `@nkusakula` (CODEOWNERS rule for `/src/`). The PR **cannot merge** without this approval.
+**Show:** GitHub has automatically requested a review from `@kevinkmanu` (CODEOWNERS rule for `/src/`). The PR **cannot merge** without this approval.
 
 **Talking point:** Code ownership rules are version-controlled in `.github/CODEOWNERS`. No tribal knowledge, no Jira ticket to find the right person.
 
@@ -1203,8 +1203,8 @@ Download `sbom-N.spdx.json` from the CI run artifacts. Open it to show every pac
 
 ### Show image signature verification
 ```bash
-cosign verify ghcr.io/nkusakula/developer-in-a-day-demo:latest \
-  --certificate-identity-regexp="https://github.com/nkusakula" \
+cosign verify ghcr.io/kevinkmanu/developer-in-a-day-demo:latest \
+  --certificate-identity-regexp="https://github.com/kevinkmanu" \
   --certificate-oidc-issuer="https://token.actions.githubusercontent.com"
 ```
 The signed image verification output proves the image was built by a specific GitHub Actions workflow run.

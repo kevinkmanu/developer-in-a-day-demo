@@ -37,7 +37,7 @@ spec:
         fsGroup: 1001
       containers:
         - name: demo-app
-          image: ghcr.io/nkusakula/developer-in-a-day-demo:latest   # Replaced by CD pipeline
+          image: ghcr.io/kevinkmanu/developer-in-a-day-demo:latest   # Replaced by CD pipeline
           imagePullPolicy: Always
           ports:
             - name: http

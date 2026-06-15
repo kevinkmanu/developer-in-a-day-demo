@@ -55,7 +55,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
 ARG BUILD_DATE="unknown"
 ARG GIT_SHA="unknown"
 ARG VERSION="dev"
-ARG GITHUB_REPOSITORY="nkusakula/developer-in-a-day-demo"
+ARG GITHUB_REPOSITORY="kevinkmanu/developer-in-a-day-demo"
 
 LABEL org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.revision="${GIT_SHA}" \
@@ -63,7 +63,7 @@ LABEL org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.source="https://github.com/${GITHUB_REPOSITORY}" \
       org.opencontainers.image.title="developer-in-a-day-demo" \
       org.opencontainers.image.description="DevSecOps platform demo application" \
-      org.opencontainers.image.vendor="nkusakula" \
+      org.opencontainers.image.vendor="kevinkmanu" \
       org.opencontainers.image.licenses="MIT"
 
 CMD ["node", "src/app.js"]

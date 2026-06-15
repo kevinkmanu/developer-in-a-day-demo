@@ -11,7 +11,7 @@
 Please **do not** open a public GitHub issue for security vulnerabilities.
 
 Report vulnerabilities via [GitHub Private Security Advisories](
-https://github.com/nkusakula/developer-in-a-day-demo/security/advisories/new).
+https://github.com/kevinkmanu/developer-in-a-day-demo/security/advisories/new).
 
 You will receive a response within **48 hours** acknowledging receipt.
 We aim to release a patch within **7 days** for critical vulnerabilities.

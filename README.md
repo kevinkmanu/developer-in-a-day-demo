@@ -36,7 +36,7 @@ IDE (VS Code + GitHub Copilot)
 ## Quick Start
 
 ```bash
-git clone https://github.com/nkusakula/developer-in-a-day-demo
+git clone https://github.com/kevinkmanu/developer-in-a-day-demo
 cd developer-in-a-day-demo
 npm install
 npm test
