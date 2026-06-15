@@ -11,6 +11,7 @@ const START_TIME = Date.now();
  */
 router.get('/', (req, res) => {
   res.json({
+    serviceName: 'developer-in-a-day-demo',
     status: 'healthy',
     version: process.env.APP_VERSION || '1.0.0',
     environment: process.env.NODE_ENV || 'development',
