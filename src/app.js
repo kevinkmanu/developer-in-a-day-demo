@@ -27,7 +27,7 @@ client.collectDefaultMetrics({ register: client.register });
 app.use('/health', healthRouter);
 app.use('/api', apiRouter);
 
-// Metrics endpoint (Prometheus scrape target)
+// Metrics endpoint for Prometheus scraping
 app.get('/metrics', async (req, res) => {
   res.set('Content-Type', client.register.contentType);
   res.end(await client.register.metrics());
@@ -51,3 +51,4 @@ if (require.main === module) {
 }
 
 module.exports = app;
+
